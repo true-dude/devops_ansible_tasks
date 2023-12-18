@@ -1,0 +1,17 @@
+upstream video-loader-service {
+    server 127.0.0.1:31112;
+}
+
+server {
+    server_name video-loader-service.{{server_url}};
+    #listen 10.236.128.200:30112;
+    listen 80;
+    access_log /var/log/nginx/video-loader-service.log main;
+    chunked_transfer_encoding on;
+
+    location / {
+       proxy_pass http://video-loader-service;
+       include inc/proxy_pass_params.inc;
+       include inc/cors.inc;
+    }
+}

@@ -1,0 +1,17 @@
+---
+- name: Install ans configure nginx
+  hosts: nginx_nodes
+
+  roles:
+    - nginx
+  become: true
+
+
+#  tasks:
+#  - name: pPPing
+#    ping:
+  
+#  - name: check configure
+#    become: yes
+#    command: nginx -t
+#    changed_when: False

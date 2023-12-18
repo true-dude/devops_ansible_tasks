@@ -1,0 +1,5 @@
+---
+- name: validate nginx configuration
+  become: yes
+  command: nginx -t
+  changed_when: False

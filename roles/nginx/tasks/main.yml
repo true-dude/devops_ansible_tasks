@@ -1,0 +1,49 @@
+---
+- name: Install nginx on Debian
+  become: yes
+  apt:
+    name: nginx
+    state: latest
+
+- name: Define nginx_user
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
+
+- name: Copy nginx configs
+  become: yes
+  copy:
+    src: ./../../files/nginx
+    dest: "{{nginx_path}}"
+    owner: root
+    group: "{{root_group}}"
+    mode: 0644
+  #notify:
+  #  - validate nginx configuration
+
+#- name: Ensure directory structure exists
+#  ansible.builtin.file:
+#    path: '{{ templates_destination }}/{{ item.path }}'
+#    state: directory
+#  with_community.general.filetree: '{{ templates_source }}'
+#  when: item.state == 'directory'
+
+- name: Inserting variables in nginx
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ templates_destination }}/{{ item.path | regex_replace('\\.j2$', '') }}"
+  with_community.general.filetree: "{{ templates_source }}"
+  when: item.state == 'file'
+  notify:
+    - validate nginx configuration
+
+
+- name: Check configure
+  become: yes
+  command: nginx -t
+  changed_when: False
+
+#- name:  Inserting variables in inc/cors2
+#  ansible.builtin.template:
+#    src: "{{ templates_source }}/inc/cors2.inc.j2"
+#    dest: "{{ templates_destination }}/inc/{{ item.path | regex_replace('\\.j2$', '') | regex_replace('.', '\\.') }}"
