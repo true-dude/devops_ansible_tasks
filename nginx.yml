@@ -5,13 +5,3 @@
   roles:
     - nginx
   become: true
-
-
-#  tasks:
-#  - name: pPPing
-#    ping:
-  
-#  - name: check configure
-#    become: yes
-#    command: nginx -t
-#/sbin/nologin    changed_when: False
