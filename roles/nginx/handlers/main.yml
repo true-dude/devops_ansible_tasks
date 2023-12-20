@@ -3,3 +3,10 @@
   become: yes
   command: nginx -t
   changed_when: False
+
+
+- name: restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted

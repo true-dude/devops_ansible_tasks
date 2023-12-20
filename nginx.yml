@@ -14,4 +14,4 @@
 #  - name: check configure
 #    become: yes
 #    command: nginx -t
-#    changed_when: False
+#/sbin/nologin    changed_when: False
