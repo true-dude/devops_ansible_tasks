@@ -31,10 +31,4 @@
   when: item.state == 'file'
   notify:
     - validate nginx configuration
-
-
-- name: Check configure
-  become: yes
-  command: nginx -t
-  changed_when: True
-  notify: restart nginx
+    - restart nginx
