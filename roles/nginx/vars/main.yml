@@ -2,6 +2,7 @@
 root_group: root
 nginx_path: /etc/nginx
 etc_path: /etc/
+local_nginx_conf_path: ./../../files/nginx
 server_url: zainsk.sobaka.koshka.cherepaha
 templates_destination: /etc/nginx
 templates_source: ./../templates/nginx

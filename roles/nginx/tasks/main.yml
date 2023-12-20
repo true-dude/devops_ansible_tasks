@@ -15,7 +15,7 @@
 - name: Copy nginx configs
   become: yes
   copy:
-    src: ./../../files/nginx
+    src: "{{local_nginx_conf_path}}"
     dest: "{{etc_path}}"
     owner: root
     group: "{{root_group}}"
