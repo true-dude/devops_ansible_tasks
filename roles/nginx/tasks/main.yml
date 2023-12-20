@@ -20,8 +20,6 @@
     owner: root
     group: "{{root_group}}"
     mode: 0644
-  notify:
-    - validate nginx configuration
 
 - name: Inserting variables in nginx
   ansible.builtin.template:
