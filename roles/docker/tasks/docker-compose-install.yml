@@ -37,13 +37,3 @@
 
 - name: Install python docker-compose
   apt: name=python3-compose state=latest
-
-#- name: add docker-py python pip library
-#  become: true
-#  pip:
-#    name: docker-py
-
-#- name: add docker python pip library
-#  become: true
-#  pip:
-#    name: docker
