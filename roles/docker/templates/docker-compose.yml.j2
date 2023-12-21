@@ -1,0 +1,18 @@
+services:
+  printer1:
+    image: python:3.7-slim
+    command: sh -c "python3 printer1.py"
+    ports:
+      - 127.0.0.1:3000:3000
+    working_dir: /app
+    volumes:
+      - ./{{volume_path}}/:/app
+
+  printer2:
+    image: python:3.7-slim
+    command: sh -c "python3 printer2.py"
+    ports:
+      - 127.0.0.1:3001:3001
+    working_dir: /app
+    volumes:
+      - ./{{volume_path}}/:/app

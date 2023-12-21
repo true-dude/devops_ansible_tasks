@@ -1,5 +1,5 @@
 ---
-- name: Install ans configure nginx
+- name: Install, configure and start nginx
   hosts: nginx_nodes
 
   roles:

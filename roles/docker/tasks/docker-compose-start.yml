@@ -1,0 +1,14 @@
+---
+- name: Copy docker-compose file
+  template:
+    src:  ./../templates/docker-compose.yml.j2 #"{{ docker_compose_template_src }}"
+    dest: /home/ark/compose_test/docker-compose.yml #"{{ docker_compose_file_server_dest }}"
+
+- name: Start docker-compose
+  docker_compose:
+    project_src: "{{ docker_compose_file_server_dest }}"
+    #register: output
+
+#- name: Show results
+#  debug:
+#    var: output

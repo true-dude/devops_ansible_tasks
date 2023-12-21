@@ -1,0 +1,7 @@
+---
+- name: Install, configure and start docker, docker-compose
+  hosts: docker_nodes
+
+  roles:
+    - docker
+  become: true
