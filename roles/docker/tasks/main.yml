@@ -2,7 +2,7 @@
 - name: Ensure old versions of Docker are not installed.
   become: yes
   package:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: absent
   with_items:
     - docker
@@ -62,4 +62,8 @@
 - include_tasks: docker-compose-install.yml
   when: docker_install_compose
 
+- include_tasks: docker-image-pull.yml
+  tags: pull_images
+
 - include_tasks: docker-compose-start.yml
+  tags: start_docker_compose

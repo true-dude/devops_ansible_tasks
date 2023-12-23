@@ -1,10 +1,40 @@
 ---
-- name: Copy docker-compose file
-  template:
-    src:  "{{ docker_compose_template_src }}"
-    dest: "{{ docker_compose_file_server_dest }}"
+- name: Copy docker-compose files
+  copy:
+    src: "{{ local_docker_compose_files_path }}"
+    dest: "{{ remote_docker_compose_directory_path }}"
+    owner: root
+    group: root  # не знаю норм или нет ???
+    mode: 0777   # тоже не знаю, такое себе наверно ???
+  tags: start_docker_compose
 
+- name: Insert variables in docker compose files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ remote_docker_compose_templates_path }}/{{ item.path | regex_replace('\\.j2$', '') }}"
+  with_community.general.filetree: "{{ local_docker_compose_templates_path }}"
+  when: item.state == 'file'
+  tags: start_docker_compose
+
+- name: Load docker images from tar archive
+  docker_image:
+    name: "{{ item }}"
+    load_path: "{{ remote_path_to_images }}/{{ item | regex_replace('/', '#') }}.tar"
+    source: load
+  with_items: "{{ images }}"
+  tags: start_docker_compose
+
+- name: Change mode special for concule volume
+  file: 
+    path: "{{ volumes_services_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0777
+  tags: start_docker_compose
+  
 - name: Start docker-compose
   docker_compose:
-    project_src: "{{ docker_compose_file_server_dest }}"
-    
+    project_src: /home/ark/ansible_task/files/docker/compose
+    files: "{{ remote_docker_compose_files_path }}"
+  tags: start_docker_compose

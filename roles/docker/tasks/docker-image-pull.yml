@@ -1,0 +1,36 @@
+---
+- name: Ensure curl is installed
+  package:
+    name: curl
+    state: present
+  tags: pull_images
+
+- name: Ensure crane is installed
+  become: yes
+  ansible.builtin.shell: |
+    if ! command -v crane &> /dev/null
+    then
+      curl -Lo crane.tar.gz https://github.com/google/go-containerregistry/releases/download/v0.6.0/go-containerregistry_Linux_x86_64.tar.gz
+      tar xzvf crane.tar.gz crane
+      mv crane /usr/local/bin/crane
+    fi
+  args:
+    creates: /usr/local/bin/crane
+  tags: pull_images
+
+- name: Create directory for images
+  file:
+    path: "{{ local_path_to_images }}"
+    mode: 0777
+    owner: root
+    group: root
+    state: directory
+  tags: pull_images
+
+- name: Pull docker image with crane
+  become: yes
+  shell: crane pull "{{ item }}" "{{ local_path_to_images }}"/"{{ item | regex_replace('/', '#') }}".tar 
+  args:
+    creates: "{{ item }}.tar"
+  with_items: "{{ images }}"
+  tags: pull_images

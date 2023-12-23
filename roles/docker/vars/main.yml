@@ -1,2 +1,50 @@
 ---
+###########################
+# docker-comopse / images #
+###########################
+
 volume_path: ./vol_dir
+
+remote_docker_compose_files_path: [
+                                   "monitoring/docker-compose.yaml",
+                                   "docker-compose-database.yml",
+                                   "services.yaml"
+                                   ]
+
+images: [
+         "timescale/timescaledb:latest-pg14",
+         "redis:6.2",
+         "ubuntu", 
+         "bitnami/consul:latest",
+         "portainer/portainer-ce:latest", 
+         "prom/node-exporter:latest", 
+         "gcr.io/cadvisor/cadvisor:v0.46.0",
+         "prom/prometheus:latest",
+         "grafana/grafana:latest"
+        ]
+
+
+################################
+# docler-compose-data-base.yml #
+################################
+
+volumes_postgresql_data_path: /home/volumes/postgresql_data/
+
+#################
+# services.yaml #
+#################
+
+volumes_services_path: /home/volumes/consul
+
+
+
+
+#############################
+# monitoring/prometheus.yml #
+#############################
+
+ip_prometheus:      192.168.15.100:9090
+ip_cadvisor:        192.168.15.100:8080
+ip_docker_exporter: 192.168.15.100:9417
+ip_node:            192.168.15.100:9100
+ip_local_manager:   192.168.15.100:31002

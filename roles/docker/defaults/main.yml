@@ -3,6 +3,12 @@
 # Docker Compose options.
 docker_install_compose: true
 docker_compose_version: "1.27.4"
-docker_compose_path: /usr/local/bin/docker-compose
-docker_compose_template_src: ./../templates/docker-compose.yml.j2
-docker_compose_file_server_dest: /home/ark/compose_test/
+docker_compose_path:                 /usr/local/bin/docker-compose
+local_docker_compose_templates_path: ./../templates/compose
+remote_docker_compose_templates_path: /home/ark/ansible_task/files/docker/compose
+docker_compose_file_server_dest:      /home/ark/compose_test/
+
+local_path_to_images:                 /home/ark/Cloud/devops/george_task/ansible/nginx_task/work/files/docker/compose/images
+remote_path_to_images:                /home/ark/ansible_task/files/docker/compose/images
+local_docker_compose_files_path:      ./../../files/docker/compose
+remote_docker_compose_directory_path: /home/ark/ansible_task/files/docker/
