@@ -1,0 +1,93 @@
+version: '3.5'
+services:
+  redis:
+    image: redis:6.2
+#    restart: always
+    container_name: redis
+    networks:
+    - network
+    ports:
+    - 10778:6379
+    restart: always
+
+  network-diagnostic:
+    image: ubuntu
+    container_name: ubuntu_network_diagnostic
+    command: /bin/sh -c "while true; do sleep 30; done" # Запускает бесконечный цикл, чтобы контейнер не завершался
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Предоставляет доступ к Docker daemon из контейнера
+    networks:
+      - network
+  consul:
+    image: bitnami/consul:latest
+#    network_mode: host
+    restart: always
+    ports:
+      - '8300:8300'
+      - '8301:8301'
+      - '8301:8301/udp'
+      - '8500:8500'
+      - '8600:8600'
+      - '8600:8600/udp'
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+      - CONSUL_AGENT_MODE=server
+      - CONSUL_BIND_ADDR=172.179.0.10
+
+#    network_mode: host
+#    networks:
+#    - network
+#        ipv4_address: 10.5.0.5
+    networks:
+      network:
+        ipv4_address: 172.179.0.10
+    volumes:
+      - "{{ volumes_services_path }}:/bitnami" # "/home/volumes/consul:/bitnami"
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+#    restart: unless-stopped
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/volumes/portainer-data:/data
+#    network_mode: "host"
+    networks:
+    - network
+    ports:
+      - '9000:9000'
+
+#  rabbitmq:
+#    image: rabbitmq:3.6.6-management
+#    image: rabbitmq:3-management-alpine
+#    restart: always
+#    log_driver: "syslog"
+#    log_opt:
+#      tag: "ssk/rabbitmq"
+#    networks:
+#    - network
+#    environment:
+#      - RABBITMQ_USE_LONGNAME="true"
+#      - RABBITMQ_LOGS="/var/log/rabbitmq/rabbit.log"
+#    ports:
+#      - "4369:4369"
+#      - "5672:5672"
+#      - "15672:15672"
+#      - "25672:25672"
+#      - "35197:35197"
+#    volumes:
+#      - "/home/volumes/rabbitmq/data:/var/lib/rabbitmq"
+#      - "/home/volumes/rabbitmq/data/logs:/var/log/rabbitmq"
+#      - "/home/volumes/rabbitmq/config/:/etc/rabbitmq"
+
+networks:
+  network:
+    name: network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.179.0.0/16
