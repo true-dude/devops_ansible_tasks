@@ -1,0 +1,27 @@
+---
+- name: Install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install dpkg (for next step)
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dpkg
+    - wget
+    - gpg
+
+- name: Apdate alternatives path to python
+  shell: update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+
+# что то не запускается, эту часть руками видимо только
+- name: Install ansible Debian specific
+  become: yes
+  shell: |
+    UBUNTU_CODENAME=jammy
+    wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | sudo gpg --dearmour -o /usr/share/keyrings/ansible-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/ansible.list
+    sudo apt update && sudo apt install ansible
+    export LC_ALL=C.UTF-8

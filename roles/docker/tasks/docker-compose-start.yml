@@ -16,6 +16,12 @@
   when: item.state == 'file'
   tags: start_docker_compose
 
+- name: debug print
+  debug: 
+    msg: "{{ remote_path_to_images }}/{{ item | regex_replace('/', '#') }}.tar"
+  with_items: "{{ images }}"
+  tags: start_docker_compose
+
 - name: Load docker images from tar archive
   docker_image:
     name: "{{ item }}"

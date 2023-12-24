@@ -1,0 +1,11 @@
+# Надо, чтобы у пользователя, от которого будет 
+# захождить ansible, были права root 
+# (чтобы он был в /etc/sudoers)
+
+---
+- name: Install ansible
+  hosts: ansible_nodes
+
+  roles:
+    - ansible_install
+  become: true
