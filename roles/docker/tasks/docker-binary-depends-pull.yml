@@ -1,0 +1,56 @@
+---
+- name: Ensure curl is installed.
+  apt:
+    name: curl
+    state: present
+  tags: docker_binary_depends_pull # бцдет ли там curl уже ???
+
+- name: Pull docker packages
+  get_url:
+    url:  "{{ item.url }}/{{ item.name }}.deb"
+    dest: "{{ local_binary_depends_path }}"
+    mode: 0777
+  with_items:
+    - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "containerd.io_1.6.25-1_amd64"}
+    - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "docker-ce-cli_24.0.6-1~debian.12~bookworm_amd64"}
+    - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "docker-ce_24.0.6-1~debian.12~bookworm_amd64"}
+  tags: docker_binary_depends_pull
+
+
+- name: Pull depends for docler-ce
+  get_url:
+    url:  https://debian.stanford.edu/debian/pool/main/{{ item }}"  #"http://deb.debian.org/debian/bookworm/main/amd64/{{ item.name }}/amd64/{{ item.version }}"
+    dest: "{{ local_binary_depends_path }}"
+    mode: 0777
+  with_items:
+    - i/iptables/libip6tc2_1.8.9-2_amd64.deb}
+    - libn/libnfnetlink/libnfnetlink0_1.0.2-2_amd64.deb
+    - libn/libnetfilter-conntrack/libnetfilter-conntrack3_1.0.9-3_amd64.deb
+    - i/iptables/iptables_1.8.9-2_amd64.deb
+#  tags: docker_binary_depends_pull  # 404 ERROR
+
+
+- name: Pull depends for docker-ce
+  shell: "sudo curl {{ item.url }}/{{ item.name }} -o {{ local_binary_depends_path }}/{{ item.name }}"  #"http://deb.debian.org/debian/bookworm/main/amd64/{{ item.name }}/amd64/{{ item.version }}"
+  with_items:
+    #- {url: "https://github.com/docker/compose/releases/download/1.24.0",               name: "docker-compose-Linux-x86_64"}
+    - {url: "https://debian.stanford.edu/debian/pool/main/i/iptables",                  name: "libip6tc2_1.8.9-2_amd64.deb"}
+    - {url: "https://debian.stanford.edu/debian/pool/main/libn/libnfnetlink",           name: "libnfnetlink0_1.0.2-2_amd64.deb"}
+    - {url: "https://debian.stanford.edu/debian/pool/main/libn/libnetfilter-conntrack", name: "libnetfilter-conntrack3_1.0.9-3_amd64.deb"}
+    - {url: "https://debian.stanford.edu/debian/pool/main/i/iptables",                  name: "iptables_1.8.9-2_amd64.deb"}
+  tags: docker_binary_depends_pull
+
+- name: Pull docker-compose source
+  shell: wget https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 --output-document=./files/docker/binary_depends/docker-compose-Linux-x86_64
+  tags: docker_binary_depends_pull
+
+- name: Pull python3-docker depends
+  shell: "sudo curl {{ item.url }}/{{ item.name }} -o {{ local_binary_depends_path }}/{{ item.name }}"
+  with_items: "{{ python3_docker_depends }}"
+  tags: docker_binary_depends_pull
+
+- name: Pull docker-compose depends
+  shell: "sudo curl {{ item.url }}/{{ item.name }} -o {{ local_binary_depends_path }}/{{ item.name }}"
+  with_items: "{{ docker_compose_depends }}"
+  tags: docker_binary_depends_pull
+

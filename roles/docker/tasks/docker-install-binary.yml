@@ -1,0 +1,36 @@
+---
+- name: Create directory for docker depends
+  file:
+    path: "{{ remote_binary_depends_path }}"
+    mode: 0777
+    owner: root
+    group: root
+    state: directory
+  tags: docker_install_binary
+
+- name: Copy docker depends to server
+  copy:
+    src: "{{ local_binary_depends_path }}/"
+    dest: "{{ remote_binary_depends_path }}/"
+    mode: 0777
+  tags: docker_install_binary
+
+- name: Install docker from binarys
+  apt:
+    deb: "{{ remote_binary_depends_path }}/{{ item }}.deb"
+  with_items:
+    - docker-ce-cli_24.0.6-1~debian.12~bookworm_amd64
+    - containerd.io_1.6.25-1_amd64
+    - libip6tc2_1.8.9-2_amd64
+    - libnfnetlink0_1.0.2-2_amd64
+    - libnetfilter-conntrack3_1.0.9-3_amd64
+    - iptables_1.8.9-2_amd64
+    - docker-ce_24.0.6-1~debian.12~bookworm_amd64
+  tags: docker_install_binary
+
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags: docker_install_binary 

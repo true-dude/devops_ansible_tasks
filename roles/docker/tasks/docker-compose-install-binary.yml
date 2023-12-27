@@ -1,0 +1,19 @@
+---
+- name: Copy docker-compose source
+  copy:
+    src: "{{ local_binary_depends_path }}/docker-compose-Linux-x86_64"
+    dest: "/usr/local/bin/docker-compose"
+    mode: 0777
+  tags: docker_compose_install_binary
+
+- name: Install python-docker binary
+  apt:
+    deb: "{{ remote_binary_depends_path }}/{{ item.name }}"
+  with_items: "{{ python3_docker_depends }}"
+  tags: docker_compose_install_binary
+
+- name: Install docker-compose binary
+  apt:
+    deb: "{{ remote_binary_depends_path }}/{{ item.name }}"
+  with_items: "{{ docker_compose_depends }}"
+  tags: docker_compose_install_binary

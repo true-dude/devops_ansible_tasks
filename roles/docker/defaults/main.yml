@@ -8,7 +8,44 @@ local_docker_compose_templates_path: ./../templates/compose
 remote_docker_compose_templates_path: /home/ark/ansible_task/files/docker/compose
 docker_compose_file_server_dest:      /home/ark/compose_test/
 
-local_path_to_images:                 ./../../../files/docker/compose/images
+local_path_to_images:                 ./files/docker/compose/images
 remote_path_to_images:                /home/ark/ansible_task/files/docker/compose/images
 local_docker_compose_files_path:      ./../../../files/docker/compose
 remote_docker_compose_directory_path: /home/ark/ansible_task/files/docker/
+
+
+# Install docker binary
+local_binary_depends_path: ./files/docker/binary_depends
+remote_binary_depends_path: docker_depends
+docker_binary_packages: 
+  - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "containerd.io_1.6.25-1_amd64"}
+  - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "docker-ce-cli_24.0.6-1~debian.12~bookworm_amd64"}
+  - {url: "https://download.docker.com/linux/debian/dists/bookworm/pool/stable/amd64", name: "docker-ce_24.0.6-1~debian.12~bookworm_amd64"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/i/iptables",                   name: "libip6tc2_1.8.9-2_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/libn/libnfnetlink",            name: "libnfnetlink0_1.0.2-2_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/libn/libnetfilter-conntrack",  name: "libnetfilter-conntrack3_1.0.9-3_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/i/iptables",                   name: "iptables_1.8.9-2_amd64.deb"}
+
+
+# Install docker-compose binary
+
+python3_docker_depends:
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-network", name: "python3-network_0.4-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-fhs", name: "python3-fhs_1.2-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/w/websocket-client", name: "python3-websocket_1.2.3-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python3-stdlib-extensions", name: "python3-lib2to3_3.11.2-3_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python3-stdlib-extensions", name: "python3-distutils_3.11.2-3_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-docker", name: "python3-docker_5.0.3-1_all.deb"}
+
+
+docker_compose_depends:
+  - {url: "https://debian.stanford.edu/debian/pool/main/liby/libyaml", name: "libyaml-0-2_0.2.5-1_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/pyyaml", name: "python3-yaml_6.0-3+b2_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/t/texttable", name: "python3-texttable_1.6.7-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/pyrsistent", name: "python3-pyrsistent_0.18.1-1+b3_amd64.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-jsonschema", name: "python3-jsonschema_4.10.3-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-dotenv", name: "python3-dotenv_0.21.0-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/d/docopt", name: "python3-docopt_0.6.2-4.1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/d/dockerpty", name: "python3-dockerpty_0.4.1-4_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/p/python-distro", name: "python3-distro_1.8.0-1_all.deb"}
+  - {url: "https://debian.stanford.edu/debian/pool/main/d/docker-compose", name: "docker-compose_1.29.2-3_all.deb"}

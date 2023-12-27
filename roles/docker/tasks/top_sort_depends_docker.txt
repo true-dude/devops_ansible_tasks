@@ -1,0 +1,55 @@
+python3-docker -> python3-distutils -> python3-lib2to3
+               
+               
+               
+               
+               
+               -> python3-websocket -> python3-fhs
+                        ( _1.2.3-1) -> python3-network
+
+
+python3-docker - curl  -o python3-docker_5.0.3-1_all.deb
+
+python3-distutils - curl https://debian.stanford.edu/debian/pool/main/p/python3-stdlib-extensions/python3-distutils_3.11.2-3_all.deb -o python3-distutils_3.11.2-3_all.deb
+
+python3-lib2to3 - curl https://debian.stanford.edu/debian/pool/main/p/python3-stdlib-extensions/python3-lib2to3_3.11.2-3_all.deb -o python3-lib2to3_3.11.2-3_all.deb
+
+python3-websocket - curl https://debian.stanford.edu/debian/pool/main/w/websocket-client/python3-websocket_1.2.3-1_all.deb -o python3-websocket_1.2.3-1_all.deb
+
+python3-fhs - curl https://debian.stanford.edu/debian/pool/main/p/python-fhs/python3-fhs_1.2-1_all.deb -o python3-fhs_1.2-1_all.deb
+
+python3-network - curl https://debian.stanford.edu/debian/pool/main/p/python-network/python3-network_0.4-1_all.deb -o python3-network_0.4-1_all.deb
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+docker-compose -> python3-distro
+               -> python3-dockerpty
+               -> python3-docopt
+               -> python3-dotenv
+               -> python3-jsonschema -> python3-pyrsistent
+               -> python3-texttable
+               -> python3-yaml -> libyaml-0-2
+
+docker-compose - curl https://debian.stanford.edu/debian/pool/main/d/docker-compose/docker-compose_1.29.2-3_all.deb -o docker-compose_1.29.2-3_all.deb
+
+python3-distro - curl https://debian.stanford.edu/debian/pool/main/p/python-distro/python3-distro_1.8.0-1_all.deb -o python3-distro_1.8.0-1_all.deb
+
+python3-dockerpty - curl https://debian.stanford.edu/debian/pool/main/d/dockerpty/python3-dockerpty_0.4.1-4_all.deb -o python3-dockerpty_0.4.1-4_all.deb
+
+python3-docopt - curl https://debian.stanford.edu/debian/pool/main/d/docopt/python3-docopt_0.6.2-4.1_all.deb -o python3-docopt_0.6.2-4.1_all.deb
+
+python3-dotenv - curl https://debian.stanford.edu/debian/pool/main/p/python-dotenv/python3-dotenv_0.21.0-1_all.deb -o python3-dotenv_0.21.0-1_all.deb
+
+python3-jsonschema - curl https://debian.stanford.edu/debian/pool/main/p/python-jsonschema/python3-jsonschema_4.10.3-1_all.deb -o python3-jsonschema_4.10.3-1_all.deb
+
+python3-pyrsistent - curl https://debian.stanford.edu/debian/pool/main/p/pyrsistent/python3-pyrsistent_0.18.1-1+b3_amd64.deb -o python3-pyrsistent_0.18.1-1+b3_amd64.deb
+
+python3-texttable - curl https://debian.stanford.edu/debian/pool/main/t/texttable/python3-texttable_1.6.7-1_all.deb -o python3-texttable_1.6.7-1_all.deb
+
+python3-yaml - curl https://debian.stanford.edu/debian/pool/main/p/pyyaml/python3-yaml_6.0-3+b2_amd64.deb -o python3-yaml_6.0-3+b2_amd64.deb
+ 
+libyaml-0-2 - curl https://debian.stanford.edu/debian/pool/main/liby/libyaml/libyaml-0-2_0.2.5-1_amd64.deb -o libyaml-0-2_0.2.5-1_amd64.deb
+
